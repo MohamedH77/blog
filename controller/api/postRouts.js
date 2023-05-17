@@ -1,48 +1,48 @@
 const router = require("express").Router();
-const Other = require("../../models/Other");
+const { User, Post } = require("../../models");
 
+router.post("/", async (req, res) => {
+  console.log(req.body);
+  try {
+    const newpostData = await Post.create({
+      title: req.body.title,
+      body: req.body.message,
+      include: [
+        {
+          model: User,
+          where: req.session.user_id,
+          attributes: { exclude: ["password"] },
+          order: [["name", "ASC"]],
+        },
+      ],
+    });
 
-router.get("/", (req, res) => {
-  Other.findAll()
-    .then( resp => res.json({ status: "success", payload: resp }))
-    .catch( err => res.json({ msg: err.message }))
-})
+    const newpost = newpostData.get({ plain: true });
 
+    console.log(newpost);
 
-router.get("/:id", (req, res) => {
-  Other.findByPk(req.params.id)
-    .then( resp => res.json({ status: "success", payload: resp }))
-    .catch( err => res.json({ msg: err.message }))
-})
+    const postData = await Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: { exclude: ["password"] },
+          order: [["name", "ASC"]],
+        },
+      ],
+    });
 
+    const posts = postData.map((post) => Post.get({ plain: true }));
 
-router.post("/", (req, res) => {
-  Other.create(req.body)
-    .then( resp => res.json({ status: "success", payload: resp }))
-    .catch( err => res.json({ msg: err.message }))
-})
+    console.log(  posts);
 
-router.put("/:id", (req, res) => {
-  Other.update(
-    req.body,
-    {
-      where: {
-        id: req.params.id
-      }
-    }
-  )
-    .then( resp => res.json({ status: "success", payload: resp }))
-    .catch( err => res.json({ msg: err.message }))
-})
+    res.render("homepage", {
+      newpost,
+      posts,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+    console.log(err);
+  }
+});
 
-router.delete("/:id", (req, res) => {
-  Other.destroy({
-    where: {
-      id: req.params.id
-    }
-  })
-  .then( resp => res.json({ status: "success", payload: resp }))
-  .catch( err => res.json({ msg: err.message }))
-})
-
-module.exports = router
+module.exports = router;
