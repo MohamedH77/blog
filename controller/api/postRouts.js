@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 
     const newpost = newpostData.get({ plain: true });
 
-    console.log(newpost);
+  console.log(newpost);
 
     const postData = await Post.findAll({
       include: [
