@@ -11,9 +11,6 @@ router.get("/", withAuth, async (req, res) => {
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
         },
-        {
-          model: Tag,
-        },
       ],
     });
 
@@ -44,9 +41,6 @@ router.get("/post/:id", withAuth, async (req, res) => {
           through: Like,
           as: "likes",
         },
-        {
-          model: Tag,
-        },
       ],
     });
     console.log(req.params.id);
@@ -68,9 +62,6 @@ router.get("/post/:id", withAuth, async (req, res) => {
           model: User,
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
-        },
-        {
-          model: Tag,
         },
       ],
     });
@@ -130,9 +121,6 @@ router.get("/profile", withAuth, async (req, res) => {
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
         },
-        {
-          model: Tag,
-        },
       ],
     });
 
@@ -154,15 +142,12 @@ router.get("/profile", withAuth, async (req, res) => {
 router.get("/html", withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-      where: { tag_id: 1 },
+      // where: {},
       include: [
         {
           model: User,
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
-        },
-        {
-          model: Tag,
         },
       ],
     });
@@ -183,15 +168,12 @@ router.get("/html", withAuth, async (req, res) => {
 router.get("/css", withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-      where: { tag_id: 2 },
+      // where: {},
       include: [
         {
           model: User,
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
-        },
-        {
-          model: Tag,
         },
       ],
     });
@@ -212,15 +194,12 @@ router.get("/css", withAuth, async (req, res) => {
 router.get("/javascript", withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-      where: { tag_id: 3 },
+      // where: {},
       include: [
         {
           model: User,
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
-        },
-        {
-          model: Tag,
         },
       ],
     });
@@ -241,15 +220,12 @@ router.get("/javascript", withAuth, async (req, res) => {
 router.get("/node", withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-      where: { tag_id: 4 },
+      // where: {},
       include: [
         {
           model: User,
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
-        },
-        {
-          model: Tag,
         },
       ],
     });
@@ -270,15 +246,12 @@ router.get("/node", withAuth, async (req, res) => {
 router.get("/other", withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-      where: { tag_id: 5 },
+      // where: {},
       include: [
         {
           model: User,
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
-        },
-        {
-          model: Tag,
         },
       ],
     });

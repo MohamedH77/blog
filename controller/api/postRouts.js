@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
 
     const posts = postData.map((post) => Post.get({ plain: true }));
 
-    console.log(  posts);
+    console.log(posts);
 
     res.render("homepage", {
       newpost,
