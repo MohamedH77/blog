@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { User, Post, Comment, } = require("../models");
+const { User, Post, Comment } = require("../models");
 const withAuth = require("../utils/auth");
 
 router.get("/", withAuth, async (req, res) => {
@@ -97,7 +97,7 @@ router.get("/post/:id", withAuth, async (req, res) => {
   }
 });
 
-router.get("/profile", withAuth, async (req, res) => {
+router.get("/dashboard", withAuth, async (req, res) => {
   try {
     const userData = await User.findOne({
       where: { id: req.session.user_id },
@@ -128,7 +128,7 @@ router.get("/profile", withAuth, async (req, res) => {
 
     console.log(posts);
 
-    res.render("profile", {
+    res.render("dashboard", {
       user,
       posts,
       logged_in: req.session.logged_in,
@@ -139,31 +139,31 @@ router.get("/profile", withAuth, async (req, res) => {
   }
 });
 
-router.get("/html", withAuth, async (req, res) => {
-  try {
-    const postData = await Post.findAll({
-      // where: {},
-      include: [
-        {
-          model: User,
-          attributes: { exclude: ["password"] },
-          order: [["name", "ASC"]],
-        },
-      ],
-    });
+// router.get("/dashboard", withAuth, async (req, res) => {
+//   try {
+//     const postData = await Post.findAll({
+//       // where: {},
+//       include: [
+//         {
+//           model: User,
+//           attributes: { exclude: ["password"] },
+//           order: [["name", "ASC"]],
+//         },
+//       ],
+//     });
 
-    const posts = postData.map((post) => post.get({ plain: true }));
+//     const posts = postData.map((post) => post.get({ plain: true }));
 
-    console.log(posts);
+//     console.log(posts);
 
-    res.render("homepage", {
-      posts,
-      logged_in: req.session.logged_in,
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+//     res.render("homepage", {
+//       posts,
+//       logged_in: req.session.logged_in,
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 router.get("/css", withAuth, async (req, res) => {
   try {
@@ -243,30 +243,8 @@ router.get("/node", withAuth, async (req, res) => {
   }
 });
 
-router.get("/other", withAuth, async (req, res) => {
-  try {
-    const postData = await Post.findAll({
-      // where: {},
-      include: [
-        {
-          model: User,
-          attributes: { exclude: ["password"] },
-          order: [["name", "ASC"]],
-        },
-      ],
-    });
-
-    const posts = postData.map((post) => post.get({ plain: true }));
-
-    console.log(posts);
-
-    res.render("homepage", {
-      posts,
-      logged_in: req.session.logged_in,
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
+router.get("/dashboard/new", withAuth, async (req, res) => {
+  res.render("newpost");
 });
 
 router.get("/login", (req, res) => {

@@ -1,35 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+<section class="hero is-info is-small is-bold">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">Featured Posts</h1>
+        </div>
+    </div>
+</section>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Tech Blog</title>
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,400i,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
-</head>
+<div class="container">
+    <!-- START ARTICLE FEED -->
+    <section class="articles">
+        <div class="column is-8 is-offset-2">
+            <!-- START ARTICLE -->
+            {{#each posts}}
+            <div class="card article">
+                <div class="card-content">
+                    <div>
+                        <h3><a href="./post/{{id}}">{{title}}</a></h3>
+                        <div class="has-text-right">
+                            <h4 class="has-text-weight-semibold">Posted by {{user.lname}}, {{user.fname}} on {{createdAt}}</h4>
+                        </div>
+                    </div>
+                    <div>
+                        <p>{{contents}}</p>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+            <!-- END ARTICLE -->
+        </div>
+    </section>
 
-<body class="flex-column min-100-vh">
-  <nav class="navbar">
-    <ul class="flex-row">
-      <li class="li-inline nav-item"><a href="/">Home</a></li>
-      <li class="li-inline nav-item"><a href="/profile">Profile</a></li>
-      <li class="li-inline nav-item"><a href="#" id="logout-link">Logout</a></li>
-    </ul>
-  </nav>
-  <header class="hero">
-    <h1 class="app-title"><a href="/dashboard">Your Dashboard</a></h1>
-  </header>
-
-  <main class="col-auto">
-    {{{body}}}
-  </main>
-
-  <footer class="footer flex-row justify-center">
+     <footer class="footer flex-row justify-center">
     <a href="/dashboard/new">➕ New Post</a>
-  </footer>
-</body>
+    <!-- END ARTICLE FEED -->
+</div>
 
-<script src="/js/logout.js"></script>
-
-</html>

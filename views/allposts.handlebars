@@ -1,0 +1,11 @@
+<ul class="posts">
+    {{#each posts as |post|}}
+    <li>
+        {{post.title}}
+        {{post.body}}
+        {{post.createdAt}}
+    </li>
+    {{/each}}
+</ul>
+
+<script src="/public/js/new.js"></script>

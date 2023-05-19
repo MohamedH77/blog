@@ -6,7 +6,7 @@ router.post("/", async (req, res) => {
   try {
     const newpostData = await Post.create({
       title: req.body.title,
-      body: req.body.message,
+      body: req.body.body,
       include: [
         {
           model: User,
