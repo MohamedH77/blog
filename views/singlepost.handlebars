@@ -1,24 +1,25 @@
-{{#if loggedIn}}
-    {{> header}}
-{{else}}
-    {{> headerLoggedOut}}
-{{/if}}
-
-{{#each posts}}
-    {{#ifCond @index '==' 0}}
-        <div class="card">
-            <div class="class-header flex-row justify-space-between">
-                <h2>
-                    <a href="/post/{{post.id}}">
-                        <div class="col-8">{{post.post-title}}</div>
-                    </a>
-                </h2>
-            </div>
-            <h2>
-                <div class="col-8">Posted by {{post.user.username}} on {{post.dateCreated}}</div>
-            </h2>
+<!-- single-post.handlebars -->
+<section class="hero is-info is-small is-bold">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">{{title}}</h1>
+            <h2 class="subtitle">Posted by {{post.user.lname}}, {{post.user.fname}} on {{post.createdAt}}</h2>
         </div>
-    {{/ifCond}}
-{{/each}}
+    </div>
+</section>
 
-<script src="/public/js/comment.js"></script>
+<div class="container">
+    <section class="article">
+        <div class="column is-8 is-offset-2">
+            <div class="card">
+                <div class="card-content">
+                    <div>
+                        <p>{{body}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="/public/js/new"></script> 

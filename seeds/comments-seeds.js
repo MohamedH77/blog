@@ -2,27 +2,27 @@ const { Comment } = require("../models");
 
 const commentData = [
   {
-    comment: "For help in HTML ask pTag",
+    comment: "",
     user_id: 1,
     userPost_id: 1,
   },
   {
-    comment: "For CSS just make it look nice",
+    comment: "",
     user_id: 2,
     userPost_id: 1,
   },
   {
-    comment: "For JS use functions",
+    comment: "",
     user_id: 3,
     userPost_id: 1,
   },
   {
-    comment: "For NODE run npm install",
+    comment: "",
     user_id: 4,
     userPost_id: 1,
   },
   {
-    comment: "Just order pizza",
+    comment: "",
     user_id: 5,
     userPost_id: 1,
   },

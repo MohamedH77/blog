@@ -28,6 +28,7 @@ router.get("/", withAuth, async (req, res) => {
 });
 
 router.get("/post/:id", withAuth, async (req, res) => {
+  console.log("========        hitting this route at all")
   try {
     const selectedPostData = await Post.findByPk(req.params.id, {
       include: [
@@ -36,40 +37,27 @@ router.get("/post/:id", withAuth, async (req, res) => {
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
         },
-        {
-          model: User,
-          through: Like,
-          as: "likes",
-        },
+        // {
+        //   model: User,
+        //   through: Like,
+        //   as: "likes",
+        // },
       ],
     });
-    console.log(req.params.id);
-
+    
     const selectedPost = selectedPostData.get({ plain: true });
 
-    console.log(selectedPost);
-    console.log(req.session.user_id);
-
+    console.log({selectedPost})
+    
     let userLiked = false;
-    for (i = 0; i < selectedPost.likes.length; i++) {
-      if (selectedPost.likes[i].id == req.session.user_id) userLiked = true;
+    for (let i = 0; i < selectedPost.likes.length; i++) {
+      if (selectedPost.likes[i].id === req.session.user_id) {
+        userLiked = true;
+        break;
+      }
     }
-    console.log(selectedPost.likes);
-
-    const postData = await Post.findAll({
-      include: [
-        {
-          model: User,
-          attributes: { exclude: ["password"] },
-          order: [["name", "ASC"]],
-        },
-      ],
-    });
-
-    const posts = postData.map((post) => post.get({ plain: true }));
-
-    console.log(posts);
-
+    
+    console.log("========        we got this far")
     const commentData = await Comment.findAll({
       where: { Post_id: req.params.id },
       include: [
@@ -83,28 +71,25 @@ router.get("/post/:id", withAuth, async (req, res) => {
 
     const comments = commentData.map((comment) => comment.get({ plain: true }));
 
-    console.log(comments);
+    console.log("========        we got to this spot");
 
     res.render("selectedPost", {
-      posts,
       selectedPost,
       comments,
       userLiked,
       logged_in: req.session.logged_in,
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).send({err});
   }
 });
+
 
 router.get("/dashboard", withAuth, async (req, res) => {
   try {
     const userData = await User.findOne({
       where: { id: req.session.user_id },
     });
-
-    console.log(userData);
-    const user = userData.get({ plain: true });
 
     if (!userData) {
       res
@@ -126,10 +111,7 @@ router.get("/dashboard", withAuth, async (req, res) => {
 
     const posts = postData.map((post) => post.get({ plain: true }));
 
-    console.log(posts);
-
     res.render("dashboard", {
-      user,
       posts,
       logged_in: req.session.logged_in,
     });
@@ -139,31 +121,32 @@ router.get("/dashboard", withAuth, async (req, res) => {
   }
 });
 
-// router.get("/dashboard", withAuth, async (req, res) => {
-//   try {
-//     const postData = await Post.findAll({
-//       // where: {},
-//       include: [
-//         {
-//           model: User,
-//           attributes: { exclude: ["password"] },
-//           order: [["name", "ASC"]],
-//         },
-//       ],
-//     });
 
-//     const posts = postData.map((post) => post.get({ plain: true }));
+router.get("/dashboard", withAuth, async (req, res) => {
+  try {
+    const postData = await Post.findAll({
+      // where: {},
+      include: [
+        {
+          model: User,
+          attributes: { exclude: ["password"] },
+          order: [["name", "ASC"]],
+        },
+      ],
+    });
 
-//     console.log(posts);
+    const posts = postData.map((post) => post.get({ plain: true }));
 
-//     res.render("homepage", {
-//       posts,
-//       logged_in: req.session.logged_in,
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+    console.log(posts);
+
+    res.render("homepage", {
+      posts,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 router.get("/css", withAuth, async (req, res) => {
   try {
@@ -256,4 +239,10 @@ router.get("/login", (req, res) => {
   res.render("signup");
 });
 
+
+
+
+
+
 module.exports = router;
+
