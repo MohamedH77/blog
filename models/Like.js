@@ -1,5 +1,4 @@
 const { Model, DataTypes } = require('sequelize');
-
 const sequelize = require('../config/connection.js');
 
 class Like extends Model {}
@@ -24,7 +23,7 @@ Like.init(
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'UserPost',
+            model: 'Post',
             key: 'id',
         },
     },

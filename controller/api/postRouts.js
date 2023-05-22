@@ -7,14 +7,15 @@ router.post("/", async (req, res) => {
     const newpostData = await Post.create({
       title: req.body.title,
       body: req.body.body,
-      include: [
-        {
-          model: User,
-          where: req.session.user_id,
-          attributes: { exclude: ["password"] },
-          order: [["name", "ASC"]],
-        },
-      ],
+      user_id: req.session.user_id,
+      // include: [
+      //   {
+      //     model: User,
+      //     where: req.session.user_id,
+      //     attributes: { exclude: ["password"] },
+      //     order: [["name", "ASC"]],
+      //   },
+      // ],
     });
 
     const newpost = newpostData.get({ plain: true });

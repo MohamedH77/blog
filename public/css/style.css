@@ -5,6 +5,7 @@
   --light-dark: #6f6866;
   --dark: #38302e;
   --border-radius: 0.3rem;
+  --black: #000000;
 }
 
 * {
@@ -29,7 +30,7 @@ h5,
 h6 {
   font-weight: 700;
   margin: 0;
-  color: var(--dark);
+  color: var(--black);
   line-height: 1.25;
 }
 

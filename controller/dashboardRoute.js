@@ -18,7 +18,7 @@ router.get("/", withAuth, async (req, res) => {
 
     console.log(posts);
 
-    res.render("homepage", {
+    res.render("all-dash-post", {
       posts,
       logged_in: req.session.logged_in,
     });
@@ -34,9 +34,15 @@ router.get("/post/:id", withAuth, async (req, res) => {
       include: [
         {
           model: User,
-          attributes: { exclude: ["password"] },
-          order: [["name", "ASC"]],
+          // attributes: { exclude: ["password"] },
+          // order: [["name", "ASC"]],
         },
+        {
+          model: Comment,
+          include:[
+            User
+          ]
+        }
         // {
         //   model: User,
         //   through: Like,
@@ -49,34 +55,33 @@ router.get("/post/:id", withAuth, async (req, res) => {
 
     console.log({selectedPost})
     
-    let userLiked = false;
-    for (let i = 0; i < selectedPost.likes.length; i++) {
-      if (selectedPost.likes[i].id === req.session.user_id) {
-        userLiked = true;
-        break;
-      }
-    }
+    // let userLiked = false;
+    // for (let i = 0; i < selectedPost.likes.length; i++) {
+    //   if (selectedPost.likes[i].id === req.session.user_id) {
+    //     userLiked = true;
+    //     break;
+    //   }
+    // }
     
-    console.log("========        we got this far")
-    const commentData = await Comment.findAll({
-      where: { Post_id: req.params.id },
-      include: [
-        {
-          model: User,
-          attributes: { exclude: ["password"] },
-          order: [["name", "ASC"]],
-        },
-      ],
-    });
+    // console.log("========        we got this far")
+    // const commentData = await Comment.findAll({
+    //   where: { Post_id: req.params.id },
+    //   include: [
+    //     {
+    //       model: User,
+    //       attributes: { exclude: ["password"] },
+    //       order: [["name", "ASC"]],
+    //     },
+    //   ],
+    // });
 
-    const comments = commentData.map((comment) => comment.get({ plain: true }));
+    // const comments = commentData.map((comment) => comment.get({ plain: true }));
 
     console.log("========        we got to this spot");
 
-    res.render("selectedPost", {
+    res.render("singlepost", {
       selectedPost,
-      comments,
-      userLiked,
+      // userLiked,
       logged_in: req.session.logged_in,
     });
   } catch (err) {
