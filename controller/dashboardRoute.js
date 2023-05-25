@@ -31,13 +31,13 @@ router.get("/post/:id", withAuth, async (req, res) => {
   console.log("========        hitting this route at all");
   try {
     const selectedPostData = await Post.findByPk(req.params.id, {
-      include: [
-        User,
-        {
-          model: Comment,
-          include: [User],
-        },
-      ],
+      // include: [
+      //   User,
+      //   {
+      //     model: Comment,
+      //     include: [User],
+      //   },
+      // ],
     });
 
     const selectedPost = selectedPostData.get({ plain: true });
