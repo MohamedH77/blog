@@ -2,7 +2,7 @@
     <div class="hero-body">
         <div class="container has-text-centered">
             <h1 class="title">{{selectedPost.title}}</h1>
-            <h2 class="subtitle">Posted by {{selectedPost.user.username}} on {{selectedPost.createdAt}}</h2>
+            <h2 class="subtitle">Posted by {{selectedPost.User.username}} on {{selectedPost.createdAt}}</h2>
         </div>
     </div>
 </section>
@@ -44,5 +44,21 @@
         </div>
     </section>
 </div>
+
+
+<form id="add-comment-form" data-postId="{{id}}">
+    <div class="field">
+        <label class="label">Comment</label>
+        <div class="control">
+            <textarea class="textarea" placeholder="Leave a comment" name="comment-body" ></textarea>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <button class="button is-link">Submit</button>
+        </div>
+    </div>
+</form>
 
 <script src="/public/js/new"></script>

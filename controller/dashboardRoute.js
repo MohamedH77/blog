@@ -28,67 +28,33 @@ router.get("/", withAuth, async (req, res) => {
 });
 
 router.get("/post/:id", withAuth, async (req, res) => {
-  console.log("========        hitting this route at all")
+  console.log("========        hitting this route at all");
   try {
     const selectedPostData = await Post.findByPk(req.params.id, {
       include: [
-        {
-          model: User,
-          // attributes: { exclude: ["password"] },
-          // order: [["name", "ASC"]],
-        },
+        User,
         {
           model: Comment,
-          include:[
-            User
-          ]
-        }
-        // {
-        //   model: User,
-        //   through: Like,
-        //   as: "likes",
-        // },
+          include: [User],
+        },
       ],
     });
-    
+
     const selectedPost = selectedPostData.get({ plain: true });
 
-    console.log({selectedPost})
-    
-    // let userLiked = false;
-    // for (let i = 0; i < selectedPost.likes.length; i++) {
-    //   if (selectedPost.likes[i].id === req.session.user_id) {
-    //     userLiked = true;
-    //     break;
-    //   }
-    // }
-    
-    // console.log("========        we got this far")
-    // const commentData = await Comment.findAll({
-    //   where: { Post_id: req.params.id },
-    //   include: [
-    //     {
-    //       model: User,
-    //       attributes: { exclude: ["password"] },
-    //       order: [["name", "ASC"]],
-    //     },
-    //   ],
-    // });
-
-    // const comments = commentData.map((comment) => comment.get({ plain: true }));
+    console.log({ selectedPost });
 
     console.log("========        we got to this spot");
 
     res.render("singlepost", {
       selectedPost,
-      // userLiked,
+
       logged_in: req.session.logged_in,
     });
   } catch (err) {
-    res.status(500).send({err});
+    res.status(500).send({ err });
   }
 });
-
 
 router.get("/dashboard", withAuth, async (req, res) => {
   try {
@@ -125,7 +91,6 @@ router.get("/dashboard", withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 router.get("/dashboard", withAuth, async (req, res) => {
   try {
@@ -244,10 +209,4 @@ router.get("/login", (req, res) => {
   res.render("signup");
 });
 
-
-
-
-
-
 module.exports = router;
-

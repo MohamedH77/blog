@@ -3,12 +3,11 @@ const withAuth = require("../../utils/auth");
 const { Comment } = require("../../models");
 
 
-router.post("/comment", withAuth, async (req, res) => {
+router.post("/", withAuth, async (req, res) => {
   try {
     const newComment = await Comment.create({
-      content: req.body.content,
-      UserId: req.session.user_id,
-       // set the UserId foreign key to the logged in user's id
+      ...req.body,
+      user_id: req.session.user_id,
     });
     res.status(200).json(newComment);
   } catch (err) {

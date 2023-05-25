@@ -8,6 +8,7 @@ router.post("/", async (req, res) => {
       title: req.body.title,
       body: req.body.body,
       user_id: req.session.user_id,
+
       // include: [
       //   {
       //     model: User,
@@ -29,6 +30,15 @@ router.post("/", async (req, res) => {
           attributes: { exclude: ["password"] },
           order: [["name", "ASC"]],
         },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+               attributes: { exclude: ["password"] }
+        }
+      ]
+        }
       ],
     });
 
